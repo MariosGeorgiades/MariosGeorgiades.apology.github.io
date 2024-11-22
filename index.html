@@ -2,25 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible=IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apology App</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Raleway:wght@400;700&display=swap">
     <style>
-        @keyframes heartFloat {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        :root {
+            --bg-color: #ffe6e6;
+            --text-color: #333;
+            --popup-bg: rgba(255, 255, 255, 0.95);
+            --button-bg: #ff6b6b;
+            --button-hover: #ff4d4d;
+            --accent-color: #ffd700;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #f5f5f5;
+            --popup-bg: rgba(50, 50, 50, 0.95);
+            --button-bg: #ff4d4d;
+            --button-hover: #ff6b6b;
+            --accent-color: #ffa500;
         }
 
         body {
-            font-family: 'Dancing Script', cursive;
+            font-family: 'Raleway', sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            background-color: #ffe6e6;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             height: 100vh;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .heart-background {
@@ -30,12 +46,9 @@
             transform: translate(-50%, -50%) rotate(-45deg);
             width: 90vmin;
             height: 90vmin;
-            background-color: #ff6b6b;
-            animation: heartFloat 5s ease-in-out infinite;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+            background: linear-gradient(135deg, var(--button-bg), var(--accent-color));
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: heartFloat 6s cubic-bezier(0.25, 1, 0.5, 1) infinite;
         }
 
         .heart-background::before,
@@ -43,7 +56,7 @@
             content: "";
             width: 90vmin;
             height: 90vmin;
-            background-color: #ff6b6b;
+            background: linear-gradient(135deg, var(--button-bg), var(--accent-color));
             border-radius: 50%;
             position: absolute;
         }
@@ -58,134 +71,261 @@
             top: 0;
         }
 
+        .flower {
+            position: absolute;
+            width: 15vmin;
+            height: 15vmin;
+            background: radial-gradient(circle, #ffccff, #ff99ff);
+            border-radius: 50%;
+            top: 10%;
+            left: 80%;
+            transform: rotate(45deg);
+            opacity: 0.8;
+            animation: flowerFloat 8s linear infinite alternate;
+        }
+
+        .flower::before,
+        .flower::after {
+            content: "";
+            width: 15vmin;
+            height: 15vmin;
+            background: radial-gradient(circle, #ffccff, #ff99ff);
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .flower::before {
+            top: -7.5vmin;
+            left: 0;
+        }
+
+        .flower::after {
+            left: 7.5vmin;
+            top: 0;
+        }
+
+        .additional-flower {
+            position: absolute;
+            width: 10vmin;
+            height: 10vmin;
+            background: radial-gradient(circle, #ffccff, #ff99ff);
+            border-radius: 50%;
+            top: 70%;
+            left: 10%;
+            transform: rotate(-45deg);
+            opacity: 0.8;
+            animation: flowerFloat 10s linear infinite alternate;
+        }
+
+        .additional-flower::before,
+        .additional-flower::after {
+            content: "";
+            width: 10vmin;
+            height: 10vmin;
+            background: radial-gradient(circle, #ffccff, #ff99ff);
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .additional-flower::before {
+            top: -5vmin;
+            left: 0;
+        }
+
+        .additional-flower::after {
+            left: 5vmin;
+            top: 0;
+        }
+
         .tabs {
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
             gap: 20px;
+            position: relative;
             z-index: 1;
-            position: fixed;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
+            padding: 20px;
+            background: var(--popup-bg);
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
         .tab-button {
-            width: 150px;
+            width: 200px;
             height: 60px;
-            background-color: #ff6b6b;
+            background: linear-gradient(135deg, var(--button-bg), var(--accent-color));
             cursor: pointer;
             color: #ffffff;
-            font-size: 20px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 24px;
+            font-weight: bold;
             border: none;
             display: flex;
             justify-content: center;
             align-items: center;
             border-radius: 30px;
             text-align: center;
-            transition: background-color 0.3s, transform 0.3s;
+            transition: background 0.3s ease, transform 0.3s ease;
         }
 
         .tab-button:hover {
-            background-color: #ff4d4d;
+            background: linear-gradient(135deg, var(--button-hover), var(--accent-color));
             transform: scale(1.1);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
         }
 
         .tab-content {
             display: none;
-            background-color: rgba(255, 255, 255, 0.95);
-            color: #333;
-            padding: 30px;
+            background-color: var(--popup-bg);
+            padding: 40px;
             border-radius: 20px;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
             margin: 20px auto;
             width: 80%;
             max-width: 800px;
-            font-size: 20px;
-            z-index: 2;
+            font-size: 22px;
             position: relative;
-            left: 200px; /* Adjusts the tab content position to align with the buttons */
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         .tab-content.active {
             display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        textarea {
-            width: 100%;
-            height: 120px;
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid #ccc;
-            resize: none;
-            font-size: 16px;
+        .tab-content.inactive {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
         }
 
-        button.submit-btn {
-            background-color: #4CAF50;
-            color: #fff;
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--button-bg);
             border: none;
-            padding: 12px 25px;
-            border-radius: 10px;
-            margin-top: 15px;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
+            z-index: 9999;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 600px) {
-            .tab-button {
-                width: 120px;
-                height: 50px;
-                font-size: 16px;
-            }
+        .dark-mode-toggle:hover {
+            background-color: var(--button-hover);
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
 
-            .tab-content {
-                font-size: 18px;
-                padding: 20px;
-                left: 160px; /* Adjusts the position for smaller screens */
+        @keyframes heartFloat {
+            0%, 100% {
+                transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+            }
+            50% {
+                transform: translate(-50%, -48%) rotate(-45deg) scale(1.05);
+            }
+        }
+
+        @keyframes flowerFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(45deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(45deg);
             }
         }
     </style>
     <script>
         function openTab(tabName) {
-            let contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => content.classList.remove('active'));
-            document.getElementById(tabName).classList.add('active');
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                if (content.id === tabName) {
+                    content.classList.add('active');
+                    content.classList.remove('inactive');
+                } else {
+                    content.classList.add('inactive');
+                    content.classList.remove('active');
+                }
+            });
+        }
+
+        function toggleDarkMode() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
         }
 
         function submitSuggestion() {
-            alert('Ευχαριστώ για την πρότασή σου! Εκτιμώ τις σκέψεις σου και θα προσπαθώ πάντα να βελτιώνομαι. ❤️');
-            document.getElementById('suggestionTextarea').value = ''; // Clear the textarea after submission
+            const name = document.getElementById('nameInput').value;
+            const suggestion = document.getElementById('suggestionTextarea').value;
+            if (name && suggestion) {
+                // Send suggestion to server
+                fetch('https://your-server-endpoint.com/submit-suggestion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, suggestion })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(`Ευχαριστώ για την πρότασή σου, ${name}!`);
+                })
+                .catch(error => {
+                    alert('Υπήρξε ένα πρόβλημα κατά την αποστολή της πρότασής σας. Παρακαλώ προσπαθήστε ξανά.');
+                    console.error('Error:', error);
+                });
+            } else {
+                alert('Παρακαλώ συμπληρώστε και το όνομα και την πρότασή σας.');
+            }
         }
     </script>
 </head>
 <body>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+    <audio id="backgroundMusic" loop autoplay>
+        <!-- Add your music file link here. Replace the src attribute with the URL of your mp3 file -->
+        <source src="" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
     <div class="heart-background"></div>
+    <div class="flower"></div>
+    <div class="additional-flower"></div>
 
     <div class="tabs">
         <button class="tab-button" onclick="openTab('loveStory')">Η Ιστορία μας</button>
-        <button class="tab-button" onclick="openTab('apology')">Συγγνώμη</button>
         <button class="tab-button" onclick="openTab('suggestions')">Προτάσεις</button>
+        <button class="tab-button" onclick="openTab('memories')">Αναμνήσεις</button>
     </div>
 
     <div id="loveStory" class="tab-content active">
         <h2>Η Ιστορία μας</h2>
-        <p>Που την πρώτη φορά που εφκήκαμε ένιωσα κάτι διαφορετικό, ένιωσα κάτι άλλο σε σχέση με άλλες, αλλά ξέρω, εγάμησα τα ούλα στην κατασκήνωση κτλ. Αλλά πραγματικά, είσαι τούτο που θέλω στην ζωή μου. Εν δύσκολο να το πιστέψεις έτσι όπως τα έκαμα, αλλά εν αλήθεια. Εσύ είσαι η κοπέλα που θέλω τα παιδιά μου να λαλούν μητέρα. Θυμάσαι την πρώτη φορά που εφκήκαμε, που επίαμε τζαμέ στο στέκουι και εμιλούσαμε; Μετά την πρώτη φορά που ήρτα σπίτι σου κρυφά, αλλά και την πρώτη φορά που ήρτα σπίτι σου κανονικά. Θυμάσαι που επίαμε για φαΐ στο Ιμπιριαλ και επίαν τα νερά; Θυμάσαι ούλα τούτα που πραγματικά εν να μείνουν για πάντα στην καρδιά μου.</p>
-        <p></p>
-    </div>
-
-    <div id="apology" class="tab-content">
-        <h2>Η Συγγνώμη μου</h2>
-        <p>Ξέρω, επλήγωσα σε, ξέρεις έκαμα τα ούλα σκατά, αλλά αγαπώ σε και λατρεύκω σε. Υπόσχομαι εν να αλλάξω, να κάμω ό,τι μπορώ επειδή είμαστε για να είμαστε μαζί. Εν μπορώ κάτι άλλο και ξέρεις το, και εγώ και εσύ. Θέλω σε δίπλα μου σε ούλα, και χωρίς εσένα είμαι ένα τίποτε. Αγαπώ σε, συγχώρα με.   Εσύ είσαι ο λόγος που ξυπνώ το πρωί και η σκέψη σου με κρατά ζωντανό. Αγαπώ σε πιο πολύ από ό,τι μπορώ να πω με λόγια.</p>
-        <button onclick="alert('Ευχαριστώ που με συγχωρείς. Σημαίνει τα πάντα για μένα! 😊')">Με συγχωρείς;</button>
+        <p>Που την πρώτη φορά που εφκήκαμε...</p>
     </div>
 
     <div id="suggestions" class="tab-content">
         <h2>Οι Προτάσεις σου</h2>
         <p>Θέλω πάντα να βελτιώνομαι για εμάς. Σε παρακαλώ, πες μου πώς μπορώ να κάνω τα πράγματα καλύτερα:</p>
-        <textarea id="suggestionTextarea" placeholder="Πληκτρολόγησε την πρότασή σου εδώ..."></textarea>
-        <button class="submit-btn" onclick="submitSuggestion()">Υποβολή</button>
+        <input id="nameInput" type="text" placeholder="Το όνομά σου" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ccc;">
+        <textarea id="suggestionTextarea" placeholder="Πληκτρολόγησε την πρότασή σου εδώ..." style="width: 100%; height: 100px; padding: 10px; border-radius: 10px; border: 1px solid #ccc;"></textarea>
+        <button class="tab-button" onclick="submitSuggestion()">Υποβολή</button>
+    </div>
+
+    <div id="memories" class="tab-content">
+        <h2>Αναμνήσεις</h2>
+        <div class="memory-gallery">
+            <img src="https://www.example.com/photo1.jpg" alt="Memory 1" style="width: 100%; height: auto; border-radius: 10px; margin-bottom: 20px;">
+            <img src="https://www.example.com/photo2.jpg" alt="Memory 2" style="width: 100%; height: auto; border-radius: 10px; margin-bottom: 20px;">
+            <img src="https://www.example.com/photo3.jpg" alt="Memory 3" style="width: 100%; height: auto; border-radius: 10px; margin-bottom: 20px;">
+        </div>
     </div>
 </body>
 </html>
